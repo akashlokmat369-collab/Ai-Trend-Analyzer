@@ -1,0 +1,5 @@
+{
+  "name": "AI Trend Analyzer",
+  "description": "An AI-powered app that analyzes trends from Google, YouTube, and social media to predict viral news and suggest story ideas for editors.",
+  "requestFramePermissions": []
+}
