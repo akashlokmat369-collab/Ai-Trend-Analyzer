@@ -16,7 +16,6 @@ type UserRole = 'user' | 'admin';
 
 interface User {
   username: string;
-  // FIX: Corrected typo in password property definition from 'password; string;' to 'password: string;'.
   password: string;
   role: UserRole;
 }
@@ -38,7 +37,6 @@ const TrendAnalyzerPage = ({ user, onLogout }: { user: User, onLogout: () => voi
     category: 'all',
   });
   const [loading, setLoading] = useState<boolean>(false);
-  // FIX: Updated result state to store both text and grounding sources for better UI display.
   const [result, setResult] = useState<{ text: string; sources: any[] }>({ text: '', sources: [] });
   const [error, setError] = useState<string>('');
 
@@ -52,7 +50,6 @@ const TrendAnalyzerPage = ({ user, onLogout }: { user: User, onLogout: () => voi
 
   const analyzeTrends = async () => {
     setLoading(true);
-    // FIX: Reset result state to match its new object structure.
     setResult({ text: '', sources: [] });
     setError('');
 
@@ -93,7 +90,6 @@ const TrendAnalyzerPage = ({ user, onLogout }: { user: User, onLogout: () => voi
       
       prompt += ` Provide a concise, insightful analysis.`;
 
-      // FIX: Use Google Search grounding for up-to-date, real-time information as per Gemini API guidelines.
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt,
@@ -102,7 +98,6 @@ const TrendAnalyzerPage = ({ user, onLogout }: { user: User, onLogout: () => voi
         },
       });
 
-      // FIX: Extract grounding chunks and update the result state.
       const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
       setResult({ text: response.text, sources });
 
@@ -159,7 +154,6 @@ const TrendAnalyzerPage = ({ user, onLogout }: { user: User, onLogout: () => voi
       <section className="results-container" aria-labelledby="results-heading">
         <h2 id="results-heading" className="sr-only">Analysis Results</h2>
         {error && <p className="error" role="alert">{error}</p>}
-        {/* FIX: Update JSX to render the result text and the list of sources. */}
         {result.text && (
           <div className="result-card">
             <pre>{result.text}</pre>
@@ -291,7 +285,7 @@ const LoginPage = ({ onLogin }: { onLogin: (username: string, password: string) 
     try {
       onLogin(username, password);
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     }
   };
 
@@ -313,8 +307,13 @@ const App = () => {
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  const handleLogin = (username, password) => {
-    const user = users.find(u => u.username === username && u.password === password);
+  const handleLogin = (username: string, password: string) => {
+    const trimmedUsername = username.trim();
+
+    const user = users.find(
+      u => u.username.toLowerCase() === trimmedUsername.toLowerCase() && u.password === password.trim()
+    );
+    
     if (user) {
       setCurrentUser(user);
     } else {
@@ -327,7 +326,7 @@ const App = () => {
   };
 
   const handleAddUser = (newUser: User) => {
-    if (users.some(u => u.username === newUser.username)) {
+    if (users.some(u => u.username.toLowerCase() === newUser.username.trim().toLowerCase())) {
       return false; // User already exists
     }
     setUsers([...users, newUser]);
