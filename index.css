@@ -8,6 +8,7 @@
   --on-surface-color: #e0e0e0;
   --border-color: #333333;
   --error-color: #cf6679;
+  --success-color: #03dac6;
 }
 
 *, *::before, *::after {
@@ -23,7 +24,14 @@ body {
   line-height: 1.6;
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 2rem 1rem;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
 }
 
 .sr-only {
@@ -38,6 +46,40 @@ body {
   border-width: 0;
 }
 
+/* --- Login Page Styles --- */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.login-form h1 {
+  text-align: center;
+  color: var(--on-primary-color);
+  margin-bottom: 1rem;
+}
+
+.login-form .error-message {
+  color: var(--error-color);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* --- Main App Styles --- */
 .container {
   width: 100%;
   max-width: 800px;
@@ -64,6 +106,35 @@ header p {
   opacity: 0.8;
 }
 
+.page-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+}
+
+.logout-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  background-color: transparent;
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+}
+
+
 .filters-container {
   display: flex;
   flex-direction: column;
@@ -82,6 +153,7 @@ header p {
 }
 
 input[type="text"],
+input[type="password"],
 select {
   width: 100%;
   padding: 0.75rem;
@@ -94,6 +166,7 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="password"]:focus,
 select:focus {
   outline: none;
   border-color: var(--primary-color);
@@ -154,9 +227,76 @@ button:disabled {
   color: var(--on-surface-color);
 }
 
+
+/* --- Admin Page Styles --- */
+.admin-section {
+  width: 100%;
+  padding: 1.5rem;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.admin-section h2 {
+  color: var(--on-primary-color);
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.user-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.user-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-list th, .user-list td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.user-list th {
+  font-weight: 600;
+}
+
+.admin-forms-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-form button {
+  max-width: 100%;
+}
+
+.error-message {
+  color: var(--error-color);
+}
+
+.success-message {
+  color: var(--success-color);
+}
+
+
 @media (max-width: 768px) {
   .filter-group {
     grid-template-columns: 1fr 1fr;
+  }
+  .admin-forms-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
